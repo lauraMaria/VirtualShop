@@ -17,7 +17,7 @@ public interface GenericDAO<T extends DomainEntity> {
      * @param id criteria to search by
      * @return the matching object
      */
-    public T getObjectById(long id);
+    public T getObjectById(int id);
 
     /**
      * method to retrieve all objects from database
@@ -35,6 +35,6 @@ public interface GenericDAO<T extends DomainEntity> {
      * method to delete an object from database
      * @param id criteria to delete
      */
-    public void delete(long id);
+    public void delete(int id);
 
 }

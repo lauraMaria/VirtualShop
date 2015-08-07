@@ -4,75 +4,67 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * Created by laura.petrosanu on 8/6/2015.
+ * Created by laura.petrosanu on 8/7/2015.
  */
 @Entity
 public class User implements DomainEntity{
-
     /**
-     * database identifier of a User
+     * database identifier for a User
      */
-    @Id
-    @GeneratedValue
-    private long idUser;
+    private int iduser;
     /**
-     * the user name of a User
+     * user name of a User
      */
-    private String userName;
+    private String username;
     /**
-     * the password of a User
+     * password of a User
      */
     private String password;
     /**
      * first name of the User
      */
-    private String firstName;
+    private String firstname;
     /**
      * last name of the User
      */
-    private String lastName;
+    private String lastname;
     /**
      * email of the User
      */
     private String email;
     /**
-     * the list of the Order for a User
+     * user type (stands for PREMIUM or STANDARD
      */
-    @OneToMany(mappedBy = "user")
-    private List<Order> orderList;
+    private int type;
     /**
-     * the role of a User
-
+     * the list of Orders for a User
      */
-    @ManyToOne
-    @JoinColumn(name = "iduserrole")
-    private UserRole role;
+    private List<Order> orders;
 
     //getters and setters
-    public UserRole getRole() {
-        return role;
+
+    @Id
+    @Column(name = "iduser")
+    public int getIduser() {
+        return iduser;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
+    public void setIduser(int iduser) {
+        this.iduser = iduser;
     }
 
-    public long getIdUser() {
-        return idUser;
+    @Basic
+    @Column(name = "username")
+    public String getUsername() {
+        return username;
     }
 
-    public void setIdUser(long idUser) {
-        this.idUser = idUser;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
+    @Basic
+    @Column(name = "password")
     public String getPassword() {
         return password;
     }
@@ -81,22 +73,28 @@ public class User implements DomainEntity{
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
+    @Basic
+    @Column(name = "firstname")
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getLastName() {
-        return lastName;
+    @Basic
+    @Column(name = "lastname")
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
+    @Basic
+    @Column(name = "email")
     public String getEmail() {
         return email;
     }
@@ -105,11 +103,52 @@ public class User implements DomainEntity{
         this.email = email;
     }
 
-    public List<Order> getOrderList() {
-        return orderList;
+    @Basic
+    @Column(name = "type")
+    public int getType() {
+        return type;
     }
 
-    public void setOrderList(List<Order> orderList) {
-        this.orderList = orderList;
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,  mappedBy = "user")
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (iduser != user.iduser) return false;
+        if (username != null ? !username.equals(user.username) : user.username != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        if (firstname != null ? !firstname.equals(user.firstname) : user.firstname != null) return false;
+        if (lastname != null ? !lastname.equals(user.lastname) : user.lastname != null) return false;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
+
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = iduser;
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
+        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+
+        return result;
     }
 }

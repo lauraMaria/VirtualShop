@@ -12,10 +12,16 @@
     <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
+            <groupId>ro.iquest.virtual-shop</groupId>
+            <artifactId>service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <classifier>jar-with-dependencies</classifier>
+            <exclusions>
+                <exclusion>
+                    <groupId>ro.iquest.virtual-shop</groupId>
+                    <artifactId>repository</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <build>

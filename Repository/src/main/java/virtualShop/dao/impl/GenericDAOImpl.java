@@ -1,5 +1,6 @@
 package virtualShop.dao.impl;
 
+import org.springframework.transaction.annotation.Transactional;
 import virtualShop.dao.GenericDAO;
 import virtualShop.entity.DomainEntity;
 
@@ -19,8 +20,6 @@ public class GenericDAOImpl<T extends DomainEntity> implements GenericDAO<T> {
     @PersistenceContext(unitName = "repository")
     private EntityManager entityManager;
 
-    public GenericDAOImpl(){}
-
     public GenericDAOImpl(Class<T> type){
         this.type = type;
     }
@@ -28,7 +27,7 @@ public class GenericDAOImpl<T extends DomainEntity> implements GenericDAO<T> {
     /**
      * {@inheritDoc}
      */
-    public T getObjectById(long id) {
+    public T getObjectById(int id) {
         return getEntityManager().find(type,id);
     }
 
@@ -42,15 +41,15 @@ public class GenericDAOImpl<T extends DomainEntity> implements GenericDAO<T> {
     /**
      * {@inheritDoc}
      */
+    @Transactional
     public void save(T object) {
         getEntityManager().persist(object);
     }
 
-        /**
+    /**
      * {@inheritDoc}
      */
-
-    public void delete(long id) {
+    public void delete(int id) {
         getEntityManager().remove(id);
     }
 
