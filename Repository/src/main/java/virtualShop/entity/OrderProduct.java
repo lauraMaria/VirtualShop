@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by laura.petrosanu on 8/7/2015.
  */
 @Entity
-public class OrderProduct implements DomainEntity{
+public class OrderProduct {
 
     /**
      * database identifier for the Order

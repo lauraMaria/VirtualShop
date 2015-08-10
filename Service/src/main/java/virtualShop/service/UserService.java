@@ -17,4 +17,6 @@ public interface UserService {
 
     public void delete(int id);
 
+    public UserDTO getUserByUsername(String username);
+
 }

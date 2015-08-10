@@ -2,7 +2,6 @@ package virtualShop.dao.impl;
 
 import org.springframework.transaction.annotation.Transactional;
 import virtualShop.dao.GenericDAO;
-import virtualShop.entity.DomainEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +13,7 @@ import java.util.List;
  *         Concrete implementation of the GenericDAO interface
  *         </p>
  */
-public class GenericDAOImpl<T extends DomainEntity> implements GenericDAO<T> {
+public class GenericDAOImpl<T> implements GenericDAO<T> {
 
     private Class<T> type;
     @PersistenceContext(unitName = "repository")

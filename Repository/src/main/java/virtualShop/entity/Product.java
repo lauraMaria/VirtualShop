@@ -7,7 +7,7 @@ import java.util.List;
  * Created by laura.petrosanu on 8/7/2015.
  */
 @Entity
-public class Product implements DomainEntity{
+public class Product {
     /**
      * database identifier of the Product
      */

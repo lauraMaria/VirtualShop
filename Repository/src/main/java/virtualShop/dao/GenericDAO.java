@@ -1,7 +1,5 @@
 package virtualShop.dao;
 
-import virtualShop.entity.DomainEntity;
-
 import java.util.List;
 
 /**
@@ -10,7 +8,7 @@ import java.util.List;
  *         Generic interface defined for basic CRUD operations
  *         </p>
  */
-public interface GenericDAO<T extends DomainEntity> {
+public interface GenericDAO<T> {
 
     /**
      * method to retrieve and object from database by id

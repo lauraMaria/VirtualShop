@@ -31,4 +31,8 @@ public class UserServiceImpl implements UserService {
     public void delete(int id) {
         userDAO.delete(id);
     }
+
+    public UserDTO getUserByUsername(String username) {
+        return UserMapper.mapUserEntityToUserDTO(userDAO.getUserByUsername(username));
+    }
 }

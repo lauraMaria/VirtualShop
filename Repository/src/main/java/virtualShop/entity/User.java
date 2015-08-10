@@ -7,7 +7,7 @@ import java.util.List;
  * Created by laura.petrosanu on 8/7/2015.
  */
 @Entity
-public class User implements DomainEntity{
+public class User {
     /**
      * database identifier for a User
      */

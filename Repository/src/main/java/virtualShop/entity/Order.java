@@ -9,7 +9,7 @@ import java.util.List;
  * Created by laura.petrosanu on 8/7/2015.
  */
 @Entity
-public class Order implements DomainEntity{
+public class Order {
     /**
      * database identifier for a Order
      */

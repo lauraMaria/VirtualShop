@@ -7,6 +7,9 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
 
        <context:annotation-config />
+
+       <import resource="classpath*:appContext-repository.xml"/>
+
        <bean id="userService" class="virtualShop.service.impl.UserServiceImpl"/>
        <bean id="orderService" class="virtualShop.service.impl.OrderServiceImpl"/>
 

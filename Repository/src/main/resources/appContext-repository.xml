@@ -31,16 +31,11 @@
        </bean>
        <tx:annotation-driven transaction-manager="transactionManager"/>
 
-       <context:component-scan base-package="virtualShop">
-              <context:include-filter type="annotation"
-                                      expression="org.springframework.stereotype.Repository" />
-       </context:component-scan>
-
-
 
        <bean id="userDAO" class="virtualShop.dao.impl.UserDAOImpl"/>
        <bean id="orderDAO" class="virtualShop.dao.impl.OrderDAOImpl"/>
        <bean id="orderProductDAO" class="virtualShop.dao.impl.OrderProductDAOImpl"/>
        <bean id="productDAO" class="virtualShop.dao.impl.ProductDAOImpl"/>
+
 
 </beans>
