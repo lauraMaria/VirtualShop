@@ -9,4 +9,6 @@ public interface UserDAO extends GenericDAO<User> {
 
     public User getUserByUsername(String username);
 
+    public boolean checkUsernameAvailability(String username, int userId);
+
 }

@@ -23,7 +23,15 @@ public class Product {
 
     private float price;
 
+    private String imageSrc;
+
+    private String shortName;
+
     private List<OrderProduct> orderProducts;
+
+
+    //getters and setters
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
     public List<OrderProduct> getOrderProducts() {
         return orderProducts;
@@ -32,8 +40,6 @@ public class Product {
     public void setOrderProducts(List<OrderProduct> orderProducts) {
         this.orderProducts = orderProducts;
     }
-
-    //getters and setters
 
     @Id
     @Column(name = "idproduct")
@@ -73,6 +79,26 @@ public class Product {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    @Basic
+    @Column(name="imagesrc")
+    public String getImageSrc() {
+        return imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
+    }
+
+    @Basic
+    @Column(name = "shortname")
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
     @Override

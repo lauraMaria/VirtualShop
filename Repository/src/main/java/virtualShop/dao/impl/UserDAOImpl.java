@@ -18,12 +18,20 @@ public class UserDAOImpl extends GenericDAOImpl<User> implements UserDAO{
 
     public User getUserByUsername(String username) {
 
-        List<User> users = new ArrayList<User>();
-        Query query = getEntityManager().createQuery("SELECT u FROM User u WHERE u.username=:usernameParam").setParameter("usernameParam",username);
-        users = query.getResultList();
-        if(users.size()>0){
-            return users.get(0);
+        Query query = getEntityManager().createQuery("SELECT u FROM User u WHERE u.username=:usernameParam");
+        query.setParameter("usernameParam",username);
+        return (User) query.getSingleResult();
+    }
+
+    public boolean checkUsernameAvailability(String username, int userId) {
+
+        Query query = getEntityManager().createQuery("SELECT COUNT(*) FROM User u WHERE u.username=:usernameParam AND u.iduser<>:idParam");
+        query.setParameter("usernameParam", username);
+        query.setParameter("idParam",userId);
+        Long count = (Long) query.getSingleResult();
+        if(count > 0){
+            return true;
         }
-        return null;
+        return false;
     }
 }

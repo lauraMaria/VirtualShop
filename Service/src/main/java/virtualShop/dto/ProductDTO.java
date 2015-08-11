@@ -9,6 +9,9 @@ public class ProductDTO {
     private String name;
     private String description;
     private float price;
+    private String imageSrc;
+    private String shortName;
+
 
     public int getIdProduct() {
         return idProduct;
@@ -40,5 +43,20 @@ public class ProductDTO {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+    public String getImageSrc() {
+        return imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 }

@@ -19,4 +19,6 @@ public interface UserService {
 
     public UserDTO getUserByUsername(String username);
 
+    public boolean checkUsernameAvailability(String username, int userId);
+
 }

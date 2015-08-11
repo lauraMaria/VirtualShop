@@ -35,4 +35,8 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserByUsername(String username) {
         return UserMapper.mapUserEntityToUserDTO(userDAO.getUserByUsername(username));
     }
+
+    public boolean checkUsernameAvailability(String username, int userId) {
+        return userDAO.checkUsernameAvailability(username,userId);
+    }
 }

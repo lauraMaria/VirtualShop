@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import virtualShop.dto.UserDTO;
+import virtualShop.dto.UserRole;
 import virtualShop.service.UserService;
 
 /**
@@ -18,6 +19,9 @@ public class CustomAuthenticationManager implements AuthenticationManager {
     private UserService userService;
 
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+
+        System.out.println(authentication.getName());
+
         UserDTO userDTO = userService.getUserByUsername(authentication.getName());
         if(userDTO.getUsername() == null && userDTO.getPassword() == null){
             throw new BadCredentialsException("User does not exist!");
@@ -25,12 +29,18 @@ public class CustomAuthenticationManager implements AuthenticationManager {
         if(userDTO.getPassword().equals(authentication.getCredentials()) == false){
             throw new BadCredentialsException("Wrong password");
         } else {
-           /* return new UsernamePasswordAuthenticationToken(
+            String role = "";
+            if (userDTO.getRole().equals(UserRole.PREMIUM)) {
+                role = "PREMIUM";
+            }else {
+                role = "STANDARD";
+            }
+            return new UsernamePasswordAuthenticationToken(
                     authentication.getName(),
                     authentication.getCredentials(),
-                    CustomAuthenticationHelper.getAuthorities(userDTO.getRole());*/
+                    CustomAuthenticationHelper.getAuthorities(role));
 
         }
-        return null;
+
     }
 }
