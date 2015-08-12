@@ -18,6 +18,7 @@ import virtualShop.dto.UserDTO;
 import virtualShop.service.ProductService;
 import virtualShop.service.UserService;
 import virtualShop.view_model.AccountViewModel;
+import virtualShop.view_model.CartProductsViewModel;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -62,32 +63,33 @@ public class SignInController {
                 break;
             }
         }
+        //create the cart and store it on session
+        CartProductsViewModel cartProducts = new CartProductsViewModel();
+        session.setAttribute("cartProducts", cartProducts);
 
+        //get the authenticated user details
         UserDTO userDTO = userService.getUserByUsername(authentication.getName());
         //save the user on session
         session.setAttribute("loggedUser", userDTO);
         //set the name of the user
-        model.addAttribute("user",userDTO.getFirstName());
+        model.addAttribute("user", userDTO.getFirstName());
         List<ProductDTO> productDTOs = productService.getAllProducts();
         if (isPremium) {
             System.out.println("IS PREMIUM");
             //populate the list of products with prices for Premium customer
             List<ProductDTO> discountProducts = new ArrayList<ProductDTO>();
-            for(ProductDTO productDTO : productDTOs){
-                float discount = productDTO.getPrice() - (productDTO.getPrice() * (float)0.1);
+            for (ProductDTO productDTO : productDTOs) {
+                float discount = productDTO.getPrice() - (productDTO.getPrice() * (float) 0.1);
                 productDTO.setPrice(discount);
                 discountProducts.add(productDTO);
             }
-            model.addAttribute("list",discountProducts);
+            model.addAttribute("list", discountProducts);
 
         } else {
-
             //populate the list of products from database
-            model.addAttribute("list",productDTOs);
+            model.addAttribute("list", productDTOs);
         }
-
         return "common";
-
     }
 
 }

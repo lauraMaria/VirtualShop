@@ -45,6 +45,7 @@ public class User {
 
     @Id
     @Column(name = "iduser")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getIduser() {
         return iduser;
     }

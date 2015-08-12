@@ -16,6 +16,10 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductDAO productDAO;
 
+    public ProductDTO getProductById(int id) {
+        return ProductMapper.mapProductEntityToProductDTO(productDAO.getObjectById(id));
+    }
+
     public List<ProductDTO> getAllProducts() {
         return ProductMapper.mapListProductEntityToListDTO(productDAO.getAllObjects());
     }

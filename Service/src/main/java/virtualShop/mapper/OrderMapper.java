@@ -2,7 +2,10 @@ package virtualShop.mapper;
 
 
 import virtualShop.dto.OrderDTO;
+import virtualShop.dto.OrderProductDTO;
+import virtualShop.dto.UserDTO;
 import virtualShop.entity.Order;
+import virtualShop.entity.OrderProduct;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +20,9 @@ public class OrderMapper {
         orderDTO.setIdOrder(order.getIdorder());
         orderDTO.setDate(order.getOrderdate());
         orderDTO.setAmount(order.getAmount());
+        UserDTO userDTO = null;
         orderDTO.setUser(UserMapper.mapUserEntityToUserDTO(order.getUser()));
-        //lista de orderproducts ????
+        //orderDTO.setProductDTOList(OrderProductMapper.mapListOrderProductDTOToListEntity(order.getOrderProducts()));
 
         return orderDTO;
     }
@@ -30,8 +34,20 @@ public class OrderMapper {
         order.setOrderdate(orderDTO.getDate());
         order.setAmount(orderDTO.getAmount());
         order.setUser(UserMapper.mapUserDTOtoUserEntity(orderDTO.getUser()));
+        if(orderDTO.getProductDTOList() != null){
+            List<OrderProduct> orderProducts = new ArrayList<OrderProduct>();
+            for(OrderProductDTO orderProductDTO : orderDTO.getProductDTOList()){
+                OrderProduct orderProduct = new OrderProduct();
+                orderProduct.setIdorderproduct(0);
+                orderProduct.setOrder(order);
+                orderProduct.setProduct(ProductMapper.mapProductDTOToProductEntity(orderProductDTO.getProductDTO()));
+                orderProduct.setQuantity(orderProductDTO.getQuantity());
+                orderProduct.setPrice(orderProductDTO.getPrice());
+                orderProducts.add(orderProduct);
+            }
+            order.setOrderProducts(orderProducts);
+        }
 
-        //lista de orderproducts ????
 
         return order;
     }

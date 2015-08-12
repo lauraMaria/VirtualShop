@@ -3,6 +3,9 @@ package virtualShop.mapper;
 import virtualShop.dto.OrderProductDTO;
 import virtualShop.entity.OrderProduct;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by laura.petrosanu on 8/7/2015.
  */
@@ -32,6 +35,15 @@ public class OrderProductMapper {
 
         return orderProductDTO;
 
+    }
+
+    public static List<OrderProduct> mapListOrderProductDTOToListEntity(List<OrderProductDTO> orderProductDTOs){
+
+        List<OrderProduct> orderProducts = new ArrayList<OrderProduct>();
+        for(OrderProductDTO orderProductDTO : orderProductDTOs){
+            orderProducts.add(OrderProductMapper.mapOrderProductDTOToOrderProductEntity(orderProductDTO));
+        }
+        return orderProducts;
     }
 
 }

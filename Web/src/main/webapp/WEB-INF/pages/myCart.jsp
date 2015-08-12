@@ -7,6 +7,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:import url="references.jsp"/>
 
 <!DOCTYPE html>
@@ -61,9 +62,47 @@
 </nav>
 <!-- Page Content -->
 <div class="container">
+    <c:choose>
+        <c:when test="${products.size() > 0}">
 
-
-
+            <table class="table ordersTable">
+                <thead>
+                <tr>
+                    <th class="hidden"></th>
+                    <th>Ordered Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${products}" var="product">
+                    <tr>
+                        <td class="hidden">${product.productDTO.idProduct}</td>
+                        <td>${product.productDTO.shortName}</td>
+                        <td><input value="${product.quantity}">
+                            <a href="#" class="btn btn-default editBtn">Edit</a>
+                        </td>
+                        <td>${product.totalPrice}</td>
+                        <td>
+                            <button class="btn btn-default deleteBtn">Delete</button>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <form:form commandName="addOrder" method="post" id="addOrderFrm">
+                <div>
+                    <p class="fontBold" id="totalCost">Total cost : ${cost} lei</p>
+                    <a href="#" id="sendOrder" class="btn btn-default sendOrderBtn">Send order</a>
+                </div>
+                <div id="orderedProducts"></div>
+            </form:form>
+        </c:when>
+        <c:otherwise>
+            <p class="fontLarge">There are no products added to cart!</p>
+        </c:otherwise>
+    </c:choose>
 </div>
 <!-- Footer -->
 <div class="container">
@@ -85,5 +124,63 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#myCart').addClass('active');
+
+        //handle edit quantity
+        editQuantity();
+
+        //handle send order
+        sendOrder();
+
     });
+    function editQuantity() {
+        $('a.editBtn').click(function () {
+            //disable all other edit buttons from the page
+            $("a.editBtn").attr("disabled", true);
+
+            //get the edited quantity
+            var quantity = $(this).closest('tr').find('input:first').val();
+            //get the price
+            var price = $(this).closest('tr').find(':nth-child(4n)').text();
+
+            //update the price per product
+            var priceQuantity = parseFloat(quantity) * parseFloat(price);
+            $(this).closest('tr').find(':nth-child(4n)').text(priceQuantity);
+            //get total cost and update total cost of the order
+            var total = parseFloat(0);
+            $('.ordersTable tbody tr').each(function (i, row) {
+                var rowPrice = parseFloat($(row).find(':nth-child(4n)').text())
+                total += rowPrice;
+            });
+            $('#totalCost').text('Total cost: ' + total + ' lei');
+            //enable the edit buttons
+            $("a.editBtn").attr("disabled", false);
+        });
+    }
+
+    function sendOrder() {
+        $('#sendOrder').click(function () {
+            var totalOrder = parseFloat(0);
+            $('.ordersTable tbody tr').each(function (i, row) {
+                //get the product id
+                var productId = $(this).find('td:first').text();
+                debugger;
+                //get the edited quantity
+                var quantity = $(this).closest('tr').find('input:first').val();
+                //get the price
+                var price = $(this).closest('tr').find(':nth-child(4n)').text();
+                totalOrder += parseFloat(price);
+
+
+                //append to the form
+                $('#orderedProducts').append('<input type="hidden" name="cartProducts[' + i + '].productDTO.idProduct" value="' + productId + '"></input>');
+                $('#orderedProducts').append('<input type="hidden" name="cartProducts[' + i + '].quantity" value="' + quantity + '"></input>');
+                $('#orderedProducts').append('<input type="hidden" name="cartProducts[' + i + '].totalPrice" value="' + price + '"></input>');
+
+            });
+            $('#orderedProducts').append('<input type="hidden" name="totalOrder" value="' + totalOrder + '"></input>');
+
+           $('#addOrderFrm').submit();
+
+        });
+    }
 </script>

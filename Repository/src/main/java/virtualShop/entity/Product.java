@@ -43,6 +43,7 @@ public class Product {
 
     @Id
     @Column(name = "idproduct")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getIdproduct() {
         return idproduct;
     }

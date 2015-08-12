@@ -13,5 +13,6 @@
        <bean id="userService" class="virtualShop.service.impl.UserServiceImpl"/>
        <bean id="orderService" class="virtualShop.service.impl.OrderServiceImpl"/>
        <bean id="productService" class="virtualShop.service.impl.ProductServiceImpl"/>
+       <bean id="orderProductService" class="virtualShop.service.impl.OrderProductServiceImpl"/>
 
 </beans>

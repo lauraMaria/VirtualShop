@@ -32,6 +32,7 @@ public class OrderProduct {
 
     @Id
     @Column(name = "idorderproduct")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getIdorderproduct() {
         return idorderproduct;
     }

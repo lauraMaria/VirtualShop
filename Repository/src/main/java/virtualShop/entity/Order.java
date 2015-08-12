@@ -34,6 +34,7 @@ public class Order {
 
     @Id
     @Column(name = "idorder")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getIdorder() {
         return idorder;
     }

@@ -31,4 +31,12 @@ public class OrderServiceImpl implements OrderService {
     public void delete(int id) {
         orderDAO.delete(id);
     }
+
+    public OrderDTO addNewOrder(OrderDTO orderDTO) {
+        return OrderMapper.mapOrderEntityToOrderDTO(orderDAO.addNewOrder(OrderMapper.mapOrderDTOToOrderEntity(orderDTO)));
+    }
+
+    public List<OrderDTO> getOrdersById(int id) {
+        return OrderMapper.mapListOrderEntityToListDTO(orderDAO.getOrdersByUserId(id));
+    }
 }

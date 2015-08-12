@@ -16,4 +16,8 @@ public interface OrderService {
     public List<OrderDTO> getAllOrders();
 
     public void delete(int id);
+
+    public OrderDTO addNewOrder(OrderDTO orderDTO);
+
+    public List<OrderDTO> getOrdersById(int id);
 }

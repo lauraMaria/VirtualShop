@@ -7,6 +7,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:import url="references.jsp"/>
 
 <!DOCTYPE html>
@@ -50,10 +51,14 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/virtualShop/myCart.html">My cart</a></li>
                 <li>
-                    <a href="#">Previous orders</a>
+                    <a href="/virtualShop/showOrders.html">Show orders</a>
                 </li>
                 <li><a href="<c:url value="/virtualShop/j_spring_security_logout"/>"> Sign out</a></li>
             </ul>
+        </div>
+        <div class="alert alert-success hidden" id="alert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong> The product was added to the cart.
         </div>
         <!-- /.navbar-collapse -->
     </div>
@@ -111,7 +116,7 @@
                                 <p>${item.name}</p>
                             </div>
                             <div class="ratings">
-                               <a href="/virtualShop/addToCart?id=${item.idProduct}" class="btn btn-default cartBtn">Add to cart</a>
+                                <button id="${item.idProduct}" class="btn btn-default cartBtn">Add to cart</button>
                             </div>
                         </div>
                     </div>
@@ -124,7 +129,7 @@
 
 </div>
 
-</div>
+
 <!-- /.container -->
 
 <!-- Footer -->
@@ -137,10 +142,48 @@
             </div>
         </div>
     </footer>
-
 </div>
 
 </body>
 
 </html>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //handle add to cart
+        addToCart();
+    });
+
+    function addToCart() {
+        $('button').click(function(){
+            var idProduct = this.id;
+            $.ajax({
+                url : '/virtualShop/addProductToCart',
+                type : 'POST',
+                accepts :{
+                    xml : 'text/xml',
+                    text: 'text/plain'
+                },
+                data : {id : idProduct},
+                beforeSend : function(){
+                    $("button.cartBtn").attr("disabled", true);
+                    debugger;
+                },
+                success : function(response){
+                   if(response == 'success') {
+                       $('#alert').removeClass('hidden');
+                   }
+                },error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert(errorThrown);
+                },
+                complete : function(){
+                    $("button.cartBtn").attr("disabled", false);
+                    debugger;
+                }
+            });
+        });
+    }
+
+</script>
 
