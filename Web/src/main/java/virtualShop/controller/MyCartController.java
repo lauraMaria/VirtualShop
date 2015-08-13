@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created by laura.petrosanu on 8/11/2015.
@@ -59,25 +60,36 @@ public class MyCartController {
         //get logged user
         UserDTO userDTO = (UserDTO) session.getAttribute("loggedUser");
         //save the order into the database
-        OrderDTO orderToBeSumitted = new OrderDTO();
-        orderToBeSumitted.setUser(userDTO);
-        orderToBeSumitted.setDate(new Date());
-        orderToBeSumitted.setAmount(cartProductsViewModel.getTotalOrder());
+        OrderDTO orderToBeSubmitted = new OrderDTO();
+        orderToBeSubmitted.setUser(userDTO);
+        orderToBeSubmitted.setDate(new Date());
+        //variable to store the total cost of the order
+        float totalAmount = 0;
 
+        //add the ordered products into the database
         List<OrderProductDTO> products = new ArrayList<OrderProductDTO>();
-
         for (CartViewModel cartViewModel : cartProductsViewModel.getCartProducts()) {
             OrderProductDTO orderProductDTO = new OrderProductDTO();
+            //get the product from the database
             ProductDTO productDto = productService.getProductById(cartViewModel.getProductDTO().getIdProduct());
+            //check to see if the connected user is PREMIUM to apply discount
+            if(userDTO.getRole().equals(UserRole.PREMIUM)){
+                float discount = productDto.getPrice() - (productDto.getPrice() * (float) 0.1);
+                productDto.setPrice(discount);
+            }
             orderProductDTO.setProductDTO(productDto);
-            orderProductDTO.setOrderDTO(orderToBeSumitted);
+            orderProductDTO.setOrderDTO(orderToBeSubmitted);
             orderProductDTO.setQuantity(cartViewModel.getQuantity());
-            orderProductDTO.setPrice(cartViewModel.getTotalPrice());
+            orderProductDTO.setPrice(productDto.getPrice() * orderProductDTO.getQuantity());
+            totalAmount += orderProductDTO.getPrice();
             products.add(orderProductDTO);
         }
-        orderToBeSumitted.setProductDTOList(products);
-        orderService.save(orderToBeSumitted);
-
+        //set the total amount of the order
+        orderToBeSubmitted.setAmount(totalAmount);
+        orderToBeSubmitted.setProductDTOList(products);
+        orderService.save(orderToBeSubmitted);
+        //add new cart
+        session.setAttribute("cartProducts", new CartProductsViewModel());
 
         return "redirect:successfulOrder";
     }
@@ -113,8 +125,29 @@ public class MyCartController {
         return "success";
     }
 
+
+    @RequestMapping(value = "removeProductFromCart", method = RequestMethod.POST)
+    public @ResponseBody String removeProductFromCart(@RequestParam("id") int id, HttpSession session){
+        //get the cart object from session
+        CartProductsViewModel cartProducts = (CartProductsViewModel) session.getAttribute("cartProducts");
+        List<CartViewModel> addedProducts = cartProducts.getCartProducts();
+        //iterate through the products and find the product to be deleted
+        ListIterator listIterator = addedProducts.listIterator();
+        while (listIterator.hasNext()){
+            CartViewModel cartViewModel = (CartViewModel) listIterator.next();
+            if(cartViewModel.getProductDTO().getIdProduct() == id){
+                listIterator.remove();
+            }
+        }
+        //update the cart on session
+        cartProducts.setCartProducts(addedProducts);
+        session.setAttribute("cartProducts",cartProducts);
+        return "success";
+    }
+
     @RequestMapping(value = "successfulOrder", method = RequestMethod.GET)
     public String successfulOrderGET(Model model, HttpSession session){
+
         UserDTO userDTO = (UserDTO) session.getAttribute("loggedUser");
         model.addAttribute("user", userDTO.getFirstName());
 

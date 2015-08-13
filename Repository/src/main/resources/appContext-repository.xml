@@ -9,7 +9,6 @@
 
        <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
               <property name="persistenceUnitName" value="repository">
-
               </property>
 
               <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>

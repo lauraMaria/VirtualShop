@@ -49,6 +49,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li><a href="/virtualShop/common.html">Home</a></li>
                 <li><a href="/virtualShop/myCart.html">My cart</a></li>
                 <li>
                     <a href="/virtualShop/showOrders.html">Show orders</a>
@@ -168,7 +169,6 @@
                 data : {id : idProduct},
                 beforeSend : function(){
                     $("button.cartBtn").attr("disabled", true);
-                    debugger;
                 },
                 success : function(response){
                    if(response == 'success') {

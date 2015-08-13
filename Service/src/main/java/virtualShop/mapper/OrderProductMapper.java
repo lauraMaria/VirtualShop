@@ -46,4 +46,12 @@ public class OrderProductMapper {
         return orderProducts;
     }
 
+    public static List<OrderProductDTO> mapListOrderProductEntityToListDTO(List<OrderProduct> orderProducts){
+        List<OrderProductDTO> orderProductDTOs = new ArrayList<OrderProductDTO>();
+        for(OrderProduct orderProduct : orderProducts){
+            orderProductDTOs.add(OrderProductMapper.mapOrderProductEntityToOrderProductDTO(orderProduct));
+        }
+        return orderProductDTOs;
+    }
+
 }

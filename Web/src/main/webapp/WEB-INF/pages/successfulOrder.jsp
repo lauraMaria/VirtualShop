@@ -47,9 +47,10 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li><a href="/virtualShop/common.html">Home</a></li>
                 <li id="myCart"><a href="/virtualShop/myCart.html" class="">My cart</a></li>
                 <li>
-                    <a href="#">Previous orders</a>
+                    <a href="/virtualShop/showOrders.html">Show orders</a>
                 </li>
                 <li><a href="<c:url value="/virtualShop/j_spring_security_logout"/>"> Sign out</a></li>
             </ul>
@@ -63,7 +64,7 @@
 
     <h1 class="greeting">Your order has been successfully placed!</h1>
 
-    <h2>Continue shopping:</h2>
+    <h2 class="centered">Continue shopping:</h2>
 
     <div class="actions">
          <a id="homeBtn" href="/virtualShop//common.html" class="btn btn-default">Home</a>
@@ -79,7 +80,6 @@
             </div>
         </div>
     </footer>
-
 </div>
 </body>
 </html>

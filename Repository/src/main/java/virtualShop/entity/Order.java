@@ -73,7 +73,7 @@ public class Order {
         this.user = user;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,  mappedBy = "order")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,  mappedBy = "order")
     public List<OrderProduct> getOrderProducts() {
         return orderProducts;
     }

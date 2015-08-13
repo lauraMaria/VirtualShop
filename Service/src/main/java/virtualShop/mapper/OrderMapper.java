@@ -22,8 +22,19 @@ public class OrderMapper {
         orderDTO.setAmount(order.getAmount());
         UserDTO userDTO = null;
         orderDTO.setUser(UserMapper.mapUserEntityToUserDTO(order.getUser()));
-        //orderDTO.setProductDTOList(OrderProductMapper.mapListOrderProductDTOToListEntity(order.getOrderProducts()));
-
+        List<OrderProductDTO> orderProductDTOs = new ArrayList<OrderProductDTO>();
+        if(order.getOrderProducts() != null){
+            for(OrderProduct orderProduct : order.getOrderProducts()){
+                OrderProductDTO orderProductDTO = new OrderProductDTO();
+                orderProductDTO.setIdOrderedProduct(orderProduct.getIdorderproduct());
+                orderProductDTO.setOrderDTO(orderDTO);
+                orderProductDTO.setQuantity(orderProduct.getQuantity());
+                orderProductDTO.setPrice(orderProduct.getPrice());
+                orderProductDTO.setProductDTO(ProductMapper.mapProductEntityToProductDTO(orderProduct.getProduct()));
+                orderProductDTOs.add(orderProductDTO);
+            }
+        }
+        orderDTO.setProductDTOList(orderProductDTOs);
         return orderDTO;
     }
 
@@ -34,8 +45,8 @@ public class OrderMapper {
         order.setOrderdate(orderDTO.getDate());
         order.setAmount(orderDTO.getAmount());
         order.setUser(UserMapper.mapUserDTOtoUserEntity(orderDTO.getUser()));
+        List<OrderProduct> orderProducts = new ArrayList<OrderProduct>();
         if(orderDTO.getProductDTOList() != null){
-            List<OrderProduct> orderProducts = new ArrayList<OrderProduct>();
             for(OrderProductDTO orderProductDTO : orderDTO.getProductDTOList()){
                 OrderProduct orderProduct = new OrderProduct();
                 orderProduct.setIdorderproduct(0);
@@ -45,21 +56,20 @@ public class OrderMapper {
                 orderProduct.setPrice(orderProductDTO.getPrice());
                 orderProducts.add(orderProduct);
             }
-            order.setOrderProducts(orderProducts);
         }
-
+        order.setOrderProducts(orderProducts);
 
         return order;
     }
 
     public static List<OrderDTO> mapListOrderEntityToListDTO(List<Order> orders){
-
         List<OrderDTO> orderDTOs = new ArrayList<OrderDTO>();
         for(Order order : orders){
-            OrderDTO orderDTO = OrderMapper.mapOrderEntityToOrderDTO(order);
-            orderDTOs.add(orderDTO);
+            orderDTOs.add(mapOrderEntityToOrderDTO(order));
         }
         return orderDTOs;
     }
+
+
 
 }

@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: laura.petrosanu
-  Date: 8/12/2015
-  Time: 5:29 PM
+  Date: 8/13/2015
+  Time: 10:21 AM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -62,40 +62,32 @@
 </nav>
 <!-- Page Content -->
 <div class="container">
-    <c:choose>
-        <c:when test="${orders.size() > 0}">
 
-            <table class="table ordersTable">
-                <thead>
-                <tr>
-                    <th class="hidden"></th>
-                    <th>Order number</th>
-                    <th>Client</th>
-                    <th>Date</th>
-                    <th>Total amount</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${orders}" var="order">
-                    <tr>
-                        <td>${order.idOrder}</td>
-                        <td>${order.user.firstName} ${order.user.lastName}</td>
-                        <td>${order.date}</td>
-                        <td>${order.amount}</td>
-                        <td>
-                            <a href="/virtualShop/showOrderDetails?id=${order.idOrder}"
-                               class="btn btn-default detailsBtn">Details</a>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </c:when>
-        <c:otherwise>
-            <p class="fontLarge">There are no products added to cart!</p>
-        </c:otherwise>
-    </c:choose>
+    <h4 class="left5px">Order number: ${order.idOrder}</h4>
+    <h4 class="left5px">Date: ${order.date}</h4>
+    <h4 class="left5px">Total: ${order.amount} lei</h4>
+    <h4 class="left5px">Products:</h4>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${products}" var="product">
+            <tr>
+                <td>${product.productDTO.shortName}</td>
+                <td>$${product.quantity}</td>
+                <td>${product.price}</td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+
+    <a href="/virtualShop/showOrders.html" class="btn btn-default">Back</a>
+
 </div>
 <!-- Footer -->
 <div class="container">

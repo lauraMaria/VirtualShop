@@ -49,9 +49,10 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li><a href="/virtualShop/common.html">Home</a></li>
                 <li id="myCart"><a href="/virtualShop/myCart.html" class="">My cart</a></li>
                 <li>
-                    <a href="#">Previous orders</a>
+                    <a href="/virtualShop/showOrders.html">Show orders</a>
                 </li>
                 <li><a href="<c:url value="/virtualShop/j_spring_security_logout"/>"> Sign out</a></li>
             </ul>
@@ -131,7 +132,44 @@
         //handle send order
         sendOrder();
 
+        //handle delete product from cart
+        deleteProduct();
+
     });
+
+    function deleteProduct(){
+        $('button.deleteBtn').click(function(){
+            //get the id of the product to be deleted
+            var productID = $(this).closest('tr').find('td:first').text();
+
+            $.ajax({
+                url : '/virtualShop/removeProductFromCart',
+                type : 'POST',
+                accepts :{
+                    xml : 'text/xml',
+                    text: 'text/plain'
+                },
+                data : {id : productID},
+                beforeSend : function(){
+                    $("button.deleteBtn").attr("disabled", true);
+                },
+                success : function(response){
+                    if(response == 'success') {
+                       //redirect to MyCart
+                        top.location.href='/virtualShop/myCart.html';
+                    }
+                },error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert(errorThrown);
+                },
+                complete : function(){
+                    $("button.deleteBtn").attr("disabled", false);
+                    debugger;
+                }
+            });
+
+        });
+    }
+
     function editQuantity() {
         $('a.editBtn').click(function () {
             //disable all other edit buttons from the page
@@ -174,10 +212,9 @@
                 //append to the form
                 $('#orderedProducts').append('<input type="hidden" name="cartProducts[' + i + '].productDTO.idProduct" value="' + productId + '"></input>');
                 $('#orderedProducts').append('<input type="hidden" name="cartProducts[' + i + '].quantity" value="' + quantity + '"></input>');
-                $('#orderedProducts').append('<input type="hidden" name="cartProducts[' + i + '].totalPrice" value="' + price + '"></input>');
 
             });
-            $('#orderedProducts').append('<input type="hidden" name="totalOrder" value="' + totalOrder + '"></input>');
+
 
            $('#addOrderFrm').submit();
 

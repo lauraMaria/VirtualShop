@@ -64,8 +64,7 @@ public class SignInController {
             }
         }
         //create the cart and store it on session
-        CartProductsViewModel cartProducts = new CartProductsViewModel();
-        session.setAttribute("cartProducts", cartProducts);
+        session.setAttribute("cartProducts", new CartProductsViewModel());
 
         //get the authenticated user details
         UserDTO userDTO = userService.getUserByUsername(authentication.getName());
