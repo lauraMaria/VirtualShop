@@ -9,7 +9,7 @@ import java.util.List;
  * Created by laura.petrosanu on 8/7/2015.
  */
 @Entity
-public class Order implements DomainEntity{
+public class Order {
     /**
      * database identifier for a Order
      */
@@ -34,6 +34,7 @@ public class Order implements DomainEntity{
 
     @Id
     @Column(name = "idorder")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getIdorder() {
         return idorder;
     }
@@ -72,7 +73,7 @@ public class Order implements DomainEntity{
         this.user = user;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,  mappedBy = "order")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,  mappedBy = "order")
     public List<OrderProduct> getOrderProducts() {
         return orderProducts;
     }

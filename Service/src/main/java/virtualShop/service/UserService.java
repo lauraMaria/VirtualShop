@@ -17,4 +17,8 @@ public interface UserService {
 
     public void delete(int id);
 
+    public UserDTO getUserByUsername(String username);
+
+    public boolean checkUsernameAvailability(String username, int userId);
+
 }

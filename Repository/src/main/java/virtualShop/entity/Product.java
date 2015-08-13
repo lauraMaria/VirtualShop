@@ -7,7 +7,7 @@ import java.util.List;
  * Created by laura.petrosanu on 8/7/2015.
  */
 @Entity
-public class Product implements DomainEntity{
+public class Product {
     /**
      * database identifier of the Product
      */
@@ -23,7 +23,15 @@ public class Product implements DomainEntity{
 
     private float price;
 
+    private String imageSrc;
+
+    private String shortName;
+
     private List<OrderProduct> orderProducts;
+
+
+    //getters and setters
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
     public List<OrderProduct> getOrderProducts() {
         return orderProducts;
@@ -33,10 +41,9 @@ public class Product implements DomainEntity{
         this.orderProducts = orderProducts;
     }
 
-    //getters and setters
-
     @Id
     @Column(name = "idproduct")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getIdproduct() {
         return idproduct;
     }
@@ -73,6 +80,26 @@ public class Product implements DomainEntity{
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    @Basic
+    @Column(name="imagesrc")
+    public String getImageSrc() {
+        return imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
+    }
+
+    @Basic
+    @Column(name = "shortname")
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
     @Override
